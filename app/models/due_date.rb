@@ -93,10 +93,6 @@ class DueDate < ActiveRecord::Base
     topic_deadline.save
   end
 
-  def sort()
-
-  end
-
   def self.done_in_assignment_round(assignment_id, response)
     #for author feedback, quiz, teammate review and metareview, Expertiza only support one round, so the round # should be 1
     if(ResponseMap.find(response.map_id).type!="ReviewResponseMap")
