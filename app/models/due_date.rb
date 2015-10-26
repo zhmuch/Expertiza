@@ -101,7 +101,8 @@ class DueDate < ActiveRecord::Base
     due_dates = DueDate.where(["assignment_id = ?", assignment_id])
     sorted_deadlines = Array.new
     #sorted so that the earliest deadline is at the first
-    sorted_deadlines = due_dates.sort { |m1, m2| (m1.due_at and m2.due_at) ? m1.due_at <=> m2.due_at : (m1.due_at ? -1 : 1) }
+    #sorted_deadlines = due_dates.sort { |m1, m2| (m1.due_at and m2.due_at) ? m1.due_at <=> m2.due_at : (m1.due_at ? -1 : 1) }
+    due_dates.dsort(sorted_deadlines, due_dates)
     due_dates.reject{|due_date| due_date.type!=1 && due_date.type!=2}
     round=1;
     for due_date in sorted_deadlines
@@ -113,5 +114,9 @@ class DueDate < ActiveRecord::Base
       end
     end
     round
+  end
+
+  def self.dsort(sorted_deadlines, due_dates)
+    sorted_deadlines = due_dates.sort { |m1, m2| (m1.due_at and m2.due_at) ? m1.due_at <=> m2.due_at : (m1.due_at ? -1 : 1) }
   end
 end
